@@ -12,6 +12,7 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
+  role: varchar('role', { length: 20 }).default('user').notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
   username: varchar('username', { length: 50 }).notNull().unique(),
   password: varchar('password', {
@@ -110,6 +111,7 @@ export const habitTagsRelations = relations(habitTags, ({ one }) => ({
 }))
 
 export type User = typeof users.$inferSelect
+export type NewUser = typeof users.$inferInsert
 export type Habit = typeof habits.$inferSelect
 export type Entry = typeof entries.$inferSelect
 export type Tag = typeof tags.$inferSelect
